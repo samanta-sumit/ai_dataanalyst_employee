@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Employee for Data Analysis</title>
+</head>
+<body>
+    <h1>AI Employee for Data Analysis</h1>
+
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <h3>Upload Data File</h3>
+        <input type="file" name="file" required>
+        <button type="submit">Upload and Preprocess</button>
+    </form>
+    
+    <br>
+
+    <form action="/analyze" method="post">
+        <h3>Perform Analysis</h3>
+        <label for="analysis">Select Analysis Type:</label>
+        <select name="analysis" id="analysis">
+            <option value="kmeans">K-Means Clustering</option>
+
+            <option value="pca">PCA (Principal Component Analysis)</option>
+            <option value="statistics">Descriptive Statistics</option>
+        </select>
+        <br><br>
+        <label for="clusters">Number of Clusters (for K-Means):</label>
+        <input type="number" name="clusters" value="3">
+        <br><br>
+        <label for="target">Target Column (for Regression):</label>
+        <input type="text" name="target">
+        <br><br>
+        <label for="components">Number of Components (for PCA):</label>
+        <input type="number" name="components" value="2">
+        <br><br>
+        <button type="submit">Analyze</button>
+    </form>
+    
+    
+    <br>
+
+    {% if visualizations %}
+        <h3>Analysis Visualizations</h3>
+        {% for img_path in visualizations %}
+            <img src="{{ url_for('static', filename=img_path) }}" alt="Visualization" style="max-width: 500px;">
+        {% endfor %}
+    {% endif %}
+
+    {% if report_link %}
+        <h3>Download Report</h3>
+        <a href="{{ report_link }}" download>Download Report</a>
+    {% endif %}
+
+    <form action="/report" method="get">
+        <h3>Generate Report</h3>
+        <button type="submit">Generate and Download Report</button>
+    </form>
+</body>
+</html>
